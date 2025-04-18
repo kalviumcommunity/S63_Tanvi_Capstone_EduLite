@@ -2,6 +2,8 @@ require('dotenv').config(); // For environment variables
 const express = require("express");
 const mongoose = require('mongoose');
 const userRoutes = require('./userRoutes');
+const courseRoutes = require('./courseRoutes');
+
 
 const app = express();
 
@@ -13,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api', userRoutes);
+app.use('/api', courseRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');
