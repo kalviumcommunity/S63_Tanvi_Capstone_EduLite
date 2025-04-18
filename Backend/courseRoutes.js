@@ -93,4 +93,42 @@ router.delete('/courses/:id', async (req, res) => {
   }
 });
 
+// DELETE: Unenroll a user from a course
+router.delete('/courses/:courseId/unenroll/:userId', async (req, res) => {
+  try {
+    const { courseId, userId } = req.params;
+
+    // Find the course and user
+    const course = await Course.findById(courseId);
+    const user = await User.findById(userId);
+
+    if (!course) return res.status(404).json({ message: 'Course not found' });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Check if the user is enrolled in the course
+    if (!course.enrolledStudents.includes(userId)) {
+      return res.status(400).json({ message: 'User is not enrolled in this course' });
+    }
+
+    // Remove the user from the course's enrolledStudents
+    course.enrolledStudents = course.enrolledStudents.filter(
+      (studentId) => studentId.toString() !== userId
+    );
+
+    // Remove the course from the user's enrolledCourses
+    user.enrolledCourses = user.enrolledCourses.filter(
+      (courseId) => courseId.toString() !== courseId
+    );
+
+    // Save both updates
+    await course.save();
+    await user.save();
+
+    res.status(200).json({ message: 'User unenrolled from course successfully', course, user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 module.exports = router;
