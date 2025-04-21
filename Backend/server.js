@@ -1,16 +1,25 @@
 require('dotenv').config(); // For environment variables
 const express = require("express");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
 const userRoutes = require('./userRoutes');
 const courseRoutes = require('./courseRoutes');
+const path = require("path");
 
-
-const app = express();
-
-const PORT = process.env.PORT || 5000;
+const app = express(); // Initialize the app first
 
 // Middleware
-app.use(express.json());
+app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Configure CORS
+app.use(express.json()); // To parse JSON in request body
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+
+
+
+const PORT = process.env.PORT || 5000;
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
@@ -30,6 +39,9 @@ mongoose.connect(process.env.MONGO_URI, {
 }).catch(err => {
     console.error('MongoDB connection error:', err);
 });
+
+
+
 
 // Start server
 app.listen(PORT, () => {

@@ -1,71 +1,84 @@
-const express = require('express');
-const User = require('./models/user'); // Adjust the path to your user model
+const express = require("express");
+const bcrypt = require("bcrypt");
+const User = require("./models/user");
+const multer = require("multer");
+const path = require("path");
+
 const router = express.Router();
 
-// GET: Fetch all users or a single user by ID
-router.get('/users', async (req, res) => {
-    const { name } = req.query; // Example: /users?name=John
-    try {
-        const users = name
-            ? await User.find({ name: new RegExp(name, 'i') })
-            : await User.find();
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+// Multer Configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads"); // Folder where files will be saved
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage });
+
+// File Upload Route
+router.post("/upload", upload.single("profilePicture"), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
     }
+
+    // Return the uploaded file's path or other relevant data
+    res.status(200).json({
+      message: "File uploaded successfully",
+      filePath: `/uploads/${req.file.filename}`,
+    });
+  } catch (error) {
+    console.error("File Upload Error:", error.message);
+    res.status(500).json({ error: "Failed to upload file" });
+  }
 });
 
-router.get('/users/:id', async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id);
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+// POST: Create a new user (Sign Up)
+router.post("/users/signup", upload.single("profilePicture"), async (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Validate input
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "All fields are required." });
+  }
+
+  try {
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already exists." });
     }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user with profile picture (if uploaded)
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      profilePicture: req.file ? `/uploads/${req.file.filename}` : undefined, // Save profile picture path if uploaded
+    });
+
+    await user.save();
+    res.status(201).json({ message: "User registered successfully", user });
+  } catch (error) {
+    console.error("Signup Error:", error.message);
+    res.status(500).json({ error: error.message });
+  }
 });
 
-// POST: Create a new user
-router.post('/users', async (req, res) => {
-    try {
-        const { name, email, password, role } = req.body;
-
-        // Validate required fields
-        if (!name || !email || !password) {
-            return res.status(400).json({ error: 'Name, email, and password are required.' });
-        }
-
-        // Check if the email already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ error: 'Email already exists.' });
-        }
-
-        // Create and save user
-        const user = new User({ name, email, password, role });
-        await user.save();
-        res.status(201).json({ message: 'User created successfully', user });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+// GET: Fetch all users
+router.get("/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
-
-// PUT: Update a user's details by ID
-router.put('/users/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updates = req.body;
-        const options = { new: true, runValidators: true };
-
-        const user = await User.findByIdAndUpdate(id, updates, options);
-        if (!user) return res.status(404).json({ message: 'User not found' });
-
-        res.status(200).json({ message: 'User updated successfully', user });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-
 
 module.exports = router;
