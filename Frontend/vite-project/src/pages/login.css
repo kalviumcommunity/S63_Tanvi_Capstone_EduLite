@@ -1,0 +1,25 @@
+/* Import Tailwind Base */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Classes */
+.card {
+  @apply w-full max-w-md p-8 bg-white rounded-2xl shadow-lg;
+}
+
+.input {
+  @apply w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none;
+}
+
+.button-primary {
+  @apply w-full px-4 py-3 mt-4 text-lg font-medium text-white bg-indigo-700 rounded-lg hover:bg-indigo-800;
+}
+
+.button-secondary {
+  @apply w-32 px-4 py-2 text-zinc-800 bg-gray-200 rounded-lg;
+}
+
+.or-divider {
+  @apply flex items-center justify-center my-6;
+}
