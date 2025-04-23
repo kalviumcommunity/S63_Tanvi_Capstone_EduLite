@@ -10,6 +10,9 @@ const Signup = () => {
     confirmPassword: "",
   });
   const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null); // For image preview
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,16 +21,27 @@ const Signup = () => {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
     const { name, email, password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
+      setIsLoading(false);
       return;
     }
 
@@ -55,7 +69,9 @@ const Signup = () => {
         navigate("/login");
       }
     } catch (error) {
-      alert(error.response?.data?.error || "Something went wrong.");
+      setError(error.response?.data?.error || "Something went wrong.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,6 +98,7 @@ const Signup = () => {
         <p className="text-xl font-semibold text-stone-500 mb-6 text-center">
           Join EduLite to start your learning journey
         </p>
+        {error && <p className="text-red-600 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-zinc-600">Full Name</label>
@@ -138,12 +155,22 @@ const Signup = () => {
               onChange={handleFileChange}
               className="w-full mt-1 file:px-4 file:py-2 file:rounded-lg file:border-0 file:bg-indigo-700 file:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
+            {preview && (
+              <img
+                src={preview}
+                alt="Profile Preview"
+                className="w-20 h-20 mt-2 rounded-full object-cover"
+              />
+            )}
           </div>
           <button
             type="submit"
-            className="w-full px-6 py-3 mt-4 text-lg font-medium text-white bg-indigo-700 rounded-lg hover:bg-indigo-800"
+            className={`w-full px-6 py-3 mt-4 text-lg font-medium text-white bg-indigo-700 rounded-lg ${
+              isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-800"
+            }`}
+            disabled={isLoading}
           >
-            Create Account
+            {isLoading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-stone-500">

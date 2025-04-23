@@ -3,15 +3,25 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const cors = require("cors");
+// const cors = require("cors");
 const userRoutes = require('./userRoutes');
 const courseRoutes = require('./courseRoutes');
 const path = require("path");
+const studentRoutes = require("./studentRoutes");
 
-const app = express(); // Initialize the app first
+const cors = require('cors');
+
+const app = express();
+app.use(cors({
+  origin: 'http://localhost:5173', // React app's URL
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+}));
+
+// Initialize the app first
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Configure CORS
+// app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Configure CORS
 app.use(express.json()); // To parse JSON in request body
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -25,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api', userRoutes);
 app.use('/api', courseRoutes);
+app.use('/api', studentRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');

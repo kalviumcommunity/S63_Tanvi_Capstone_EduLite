@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");  // Using bcryptjs for consistency
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,8 +14,12 @@ const userSchema = new mongoose.Schema(
 
 // Hash the password before saving
 userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
+  if (this.isModified("password") || this.isNew) {
+    try {
+      this.password = await bcrypt.hash(this.password, 10);  // Hash the password before saving
+    } catch (error) {
+      next(error);
+    }
   }
   next();
 });

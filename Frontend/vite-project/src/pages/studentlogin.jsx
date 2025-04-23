@@ -10,15 +10,28 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
+
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      // const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+      const response = await axios.post("http://localhost:5000/api/users/login", {
         email,
         password,
       });
-      alert(response.data.message); // Login success message
-      navigate("/dashboard"); // Redirect to dashboard or another page
+
+      const { token } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token); // Save token to localStorage
+        alert(response.data.message); // Show success message
+        navigate("/dashboard"); // Redirect to dashboard
+      } else {
+        setError("Unexpected error: Login token missing");
+      }
     } catch (err) {
-      setError(err.response?.data?.error || "Login failed");
+      // Enhanced error logging for debugging
+      console.error("Login Error:", err.response || err.message);
+      setError(err.response?.data?.error || "Failed to login. Please try again.");
     }
   };
 
@@ -26,47 +39,33 @@ const Login = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 flex items-center justify-between bg-white px-6 py-2 shadow-md">
-  {/* Logo and Title */}
-  <div className="flex items-center">
-    <img
-      src="https://res.cloudinary.com/davztqz5k/image/upload/v1745123371/edulite_logo_figma_lcg648.png" // Replace with your logo URL
-      alt="EduLite Logo"
-      className="object-contain w-10 h-10"
-    />
-    <span className="ml-2 text-3xl font-bold text-zinc-800">EduLite</span>
-
-  </div>
-
-  {/* Back to Home Button */}
-  <button
-    className="px-4 py-2 text-sm font-medium text-indigo-700 border border-indigo-700 rounded-lg hover:bg-indigo-100"
-    onClick={() => navigate("/")}
-  >
-    Back to Home
-  </button>
-</header>
-
-
-
-
+        <div className="flex items-center">
+          <img
+            src="https://res.cloudinary.com/davztqz5k/image/upload/v1745123371/edulite_logo_figma_lcg648.png"
+            alt="EduLite Logo"
+            className="object-contain w-10 h-10"
+          />
+          <span className="ml-2 text-3xl font-bold text-zinc-800">EduLite</span>
+        </div>
+        <button
+          className="px-4 py-2 text-sm font-medium text-indigo-700 border border-indigo-700 rounded-lg hover:bg-indigo-100"
+          onClick={() => navigate("/")}
+          aria-label="Back to Home"
+        >
+          Back to Home
+        </button>
+      </header>
 
       {/* Login Card */}
       <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
-        <h2 className="text-3xl font-bold text-center text-zinc-800">
-          Welcome to EduLite
-        </h2>
-        {/* Tabs */}
+        <h2 className="text-3xl font-bold text-center text-zinc-800">Welcome to EduLite</h2>
         <div className="flex justify-center gap-4 mt-6">
-          <button className="w-32 px-4 py-2 text-white bg-indigo-700 rounded-lg">
-            Student
-          </button>
-          <button className="w-32 px-4 py-2 text-zinc-800 bg-gray-200 rounded-lg">
-            Admin
-          </button>
+          <button className="w-32 px-4 py-2 text-white bg-indigo-700 rounded-lg">Student</button>
+          <button className="w-32 px-4 py-2 text-zinc-800 bg-gray-200 rounded-lg">Admin</button>
         </div>
 
         {/* Form */}
-        <form className="mt-8 space-y-6">
+        <form onSubmit={handleLogin} className="mt-8 space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-zinc-800">
               Email Address
@@ -74,8 +73,11 @@ const Login = () => {
             <input
               id="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              required
             />
           </div>
           <div>
@@ -85,8 +87,11 @@ const Login = () => {
             <input
               id="password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              required
             />
           </div>
           <button
@@ -96,6 +101,8 @@ const Login = () => {
             Sign In
           </button>
         </form>
+
+        {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
         {/* Or Section */}
         <div className="flex items-center justify-center my-6">
