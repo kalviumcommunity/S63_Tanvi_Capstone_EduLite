@@ -96,9 +96,9 @@ Week 4 – Polish, Test, and Deploy
 
 
 
-Backend deployment link : https://s63-tanvi-capstone-edulite-2.onrender.com
+Backend deployment link : https://s63-tanvi-capstone-edulite-3.onrender.com
 
-Frontend deployment link : https://capstoneprojectedulite.netlify.app/
+Frontend deployment link : https://edulitebytanvi.netlify.app/
 
 
 
