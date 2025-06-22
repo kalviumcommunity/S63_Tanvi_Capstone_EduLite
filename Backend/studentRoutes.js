@@ -46,30 +46,7 @@ router.post("/", async (req, res) => {
 });
 const mongoose = require("mongoose");
 
-// Protected dashboard route
-router.get("/dashboard", verifyToken, async (req, res) => {
-    try {
-      // Find the user by ID, including additional details like enrolled courses if needed
-      const user = await User.findById(req.user.id).select("-password"); // Exclude password field
-  
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-  
-      // Add logic to fetch student-related details if needed
-      const studentData = {
-        name: user.name,
-        email: user.email,
-        enrolledCourses: user.enrolledCourses || [],
-        // Add other fields based on requirements
-      };
-  
-      res.status(200).json(studentData);
-    } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-      res.status(500).json({ message: "Server error" });
-    }
-  });
+
   
 module.exports = router;
 

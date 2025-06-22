@@ -1,9 +1,16 @@
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(403).json({ message: "Access Denied: No Token Provided" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
   if (!token) {
-    return res.status(403).json({ message: "Access Denied" });
+    return res.status(403).json({ message: "Access Denied: Invalid Token Format" });
   }
 
   try {
@@ -11,7 +18,10 @@ const verifyToken = (req, res, next) => {
     req.user = decoded; // Attach decoded token payload to request
     next();
   } catch (error) {
-    res.status(401).json({ message: "Invalid Token" });
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token Expired. Please login again." });
+    }
+    return res.status(401).json({ message: "Invalid Token" });
   }
 };
 
