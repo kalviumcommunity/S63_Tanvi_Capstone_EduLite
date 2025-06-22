@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaGraduationCap, FaUsers, FaBook, FaChartLine, FaStar } from "react-icons/fa";
 
-function Header(){
+function Header() {
   const navigate = useNavigate();
  
   return (
-    <header className="flex flex-wrap gap-5 justify-between px-12 py-4 w-full bg-white shadow-[0px_1px_2px_rgba(0,0,0,0.1)] max-md:px-5 max-md:max-w-full">
+    <header className="fixed top-0 left-0 right-0 flex flex-wrap gap-5 justify-between px-12 py-4 w-full bg-white shadow-[0px_1px_2px_rgba(0,0,0,0.1)] max-md:px-5 max-md:max-w-full z-50">
       <div className="flex gap-0.5 my-auto text-4xl font-bold leading-none text-black whitespace-nowrap">
         <img
           src="https://res.cloudinary.com/davztqz5k/image/upload/v1745123371/edulite_logo_figma_lcg648.png"
@@ -15,15 +17,16 @@ function Header(){
         <h1 className="basis-auto">EduLite</h1>
       </div>
       <nav className="flex gap-3.5 text-base text-center">
-    
-      <button
-          className="px-6 py-3 text-indigo-700 rounded-lg border border-indigo-700 border-solid max-md:px-5"
-          onClick={() => navigate("/login")} // Redirect to the login page
+        <button
+          className="px-6 py-3 text-indigo-700 rounded-lg border border-indigo-700 border-solid hover:bg-indigo-50 transition-colors duration-200 max-md:px-5"
+          onClick={() => navigate("/login")}
         >
           Student Login
         </button>
-    
-        <button className="self-start px-6 py-3.5 text-white bg-indigo-700 rounded-lg max-md:px-5">
+        <button 
+          className="self-start px-6 py-3.5 text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 transition-colors duration-200 max-md:px-5"
+          onClick={() => navigate("/admin/login")}
+        >
           Admin Login
         </button>
       </nav>
@@ -31,36 +34,87 @@ function Header(){
   );
 }
 
-
 function Hero() {
   return (
-    <section className="self-center mt-16 w-full max-w-6xl max-md:mt-10 max-md:max-w-full">
-      <div className="flex gap-5 max-md:flex-col">
-        <div className="w-6/12 max-md:ml-0 max-md:w-full">
-          <div className="flex flex-col items-start w-full max-md:mt-10 max-md:max-w-full">
-            <h2 className="text-5xl font-bold leading-[58px] text-zinc-800 max-md:text-4xl max-md:leading-[54px]">
-              Transform Your Learning Experience
-            </h2>
-            <p className="self-stretch mt-3.5 text-xl leading-8 text-stone-500 max-md:max-w-full">
-              EduLite provides a seamless educational platform that connects
-              students and administrators in one intuitive interface.
-            </p>
-            <div className="flex gap-4 mt-7 text-lg text-center">
-              <button className="px-8 py-3.5 text-white bg-indigo-700 rounded-lg max-md:px-5">
-                Get Started
-              </button>
-              <button className="px-8 py-4 text-indigo-700 rounded-lg border border-indigo-700 border-solid max-md:px-5">
-                Learn More
-              </button>
+    <section className="pt-32 pb-20 bg-gradient-to-b from-indigo-50 to-white">
+      <div className="self-center mt-16 w-full max-w-6xl mx-auto px-4 max-md:mt-10 max-md:max-w-full">
+        <div className="flex gap-5 max-md:flex-col">
+          <motion.div 
+            className="w-6/12 max-md:ml-0 max-md:w-full"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="flex flex-col items-start w-full max-md:mt-10 max-md:max-w-full">
+              <h2 className="text-5xl font-bold leading-[58px] text-zinc-800 max-md:text-4xl max-md:leading-[54px]">
+                Transform Your Learning Experience
+              </h2>
+              <p className="self-stretch mt-3.5 text-xl leading-8 text-stone-500 max-md:max-w-full">
+                EduLite provides a seamless educational platform that connects
+                students and administrators in one intuitive interface.
+              </p>
+              <div className="flex gap-4 mt-7 text-lg text-center">
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-3.5 text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 transition-colors duration-200 max-md:px-5"
+                >
+                  Get Started
+                </motion.button>
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 text-indigo-700 rounded-lg border border-indigo-700 border-solid hover:bg-indigo-50 transition-colors duration-200 max-md:px-5"
+                >
+                  Learn More
+                </motion.button>
+              </div>
             </div>
-          </div>
+          </motion.div>
+          <motion.div 
+            className="ml-5 w-6/12 max-md:ml-0 max-md:w-full"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <img
+              src="https://img.freepik.com/free-vector/marketing-students-create-corporate-identity_335657-3061.jpg"
+              alt="Learning platform interface"
+              className="object-contain grow mt-5 w-full rounded-xl aspect-[1.5] shadow-[0px_4px_6px_rgba(0,0,0,0.1)] max-md:mt-10 max-md:max-w-full"
+            />
+          </motion.div>
         </div>
-        <div className="ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-          <img
-            src="https://img.freepik.com/free-vector/marketing-students-create-corporate-identity_335657-3061.jpg?t=st=1745122490~exp=1745126090~hmac=4b2f39e99526e2005da780b617dd543b1ef4a7cb50df1c929f5fb51ee1bc568e&w=996"
-            alt="Learning platform interface"
-            className="object-contain grow mt-5 w-full rounded-xl aspect-[1.5] shadow-[0px_4px_6px_rgba(0,0,0,0.1)] max-md:mt-10 max-md:max-w-full"
-          />
+      </div>
+    </section>
+  );
+}
+
+function Stats() {
+  const stats = [
+    { number: "10K+", label: "Active Students", icon: <FaUsers className="text-4xl text-indigo-600" /> },
+    { number: "50+", label: "Courses", icon: <FaBook className="text-4xl text-indigo-600" /> },
+    { number: "95%", label: "Success Rate", icon: <FaChartLine className="text-4xl text-indigo-600" /> },
+    { number: "4.8", label: "Rating", icon: <FaStar className="text-4xl text-indigo-600" /> },
+  ];
+
+  return (
+    <section className="py-16 bg-white">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-4 gap-8 max-md:grid-cols-2 max-sm:grid-cols-1">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={index}
+              className="text-center p-6 rounded-xl bg-indigo-50"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex justify-center mb-4">{stat.icon}</div>
+              <h3 className="text-3xl font-bold text-indigo-700">{stat.number}</h3>
+              <p className="mt-2 text-gray-600">{stat.label}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -69,15 +123,20 @@ function Hero() {
 
 function FeatureCard({ icon, title, description }) {
   return (
-    <article className="flex flex-col grow items-start px-8 py-8 w-full rounded-xl bg-stone-50 max-md:px-5 max-md:mt-8">
-      <img
-        src={icon}
-        alt={`${title} icon`}
-        className="object-contain w-12 aspect-square rounded-[33554400px]"
-      />
+    <motion.article 
+      className="flex flex-col grow items-start px-8 py-8 w-full rounded-xl bg-stone-50 hover:bg-indigo-50 transition-colors duration-200 max-md:px-5 max-md:mt-8"
+      whileHover={{ y: -5 }}
+    >
+      <div className="p-3 bg-indigo-100 rounded-full">
+        <img
+          src={icon}
+          alt={`${title} icon`}
+          className="object-contain w-12 aspect-square"
+        />
+      </div>
       <h3 className="mt-4 text-xl font-semibold text-zinc-800">{title}</h3>
       <p className="mt-2.5 text-base leading-6 text-stone-500">{description}</p>
-    </article>
+    </motion.article>
   );
 }
 
@@ -86,108 +145,192 @@ function Features() {
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/7c02700c222848e8b2439cb84e5fcfdc/40f2c773f55c47ca76e98a946d7fcdfc189da952?placeholderIfAbsent=true",
       title: "Easy to Use",
-      description:
-        "Intuitive interface designed for both students and administrators. Intuitive interface designed",
+      description: "Intuitive interface designed for both students and administrators.",
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/7c02700c222848e8b2439cb84e5fcfdc/6cc700a28b037d985090c0cd449748a7619ba7c0?placeholderIfAbsent=true",
       title: "Collaborative Learning",
-      description: "Work together with classmates on projects and assignments. Work together with",
+      description: "Work together with classmates on projects and assignments.",
     },
     {
       icon: "https://cdn.builder.io/api/v1/image/assets/7c02700c222848e8b2439cb84e5fcfdc/d0711a9620a3883ea46e9d09b3c291e88c371ce9?placeholderIfAbsent=true",
       title: "Real-time Updates",
-      description: "Stay informed with instant notifications and updates. Work together with classmates",
+      description: "Stay informed with instant notifications and updates.",
     },
   ];
 
   return (
-    <section className="flex flex-col px-16 py-20 mt-20 w-full bg-white max-md:px-5 max-md:mt-10 max-md:max-w-full">
-      <h2 className="self-center text-4xl font-bold text-center text-zinc-800">
-        Why Choose EduLite?
-      </h2>
-      <div className="mt-12 max-md:mt-10 max-md:max-w-full">
-        <div className="flex gap-5 max-md:flex-col">
+    <section className="py-20 bg-gradient-to-b from-white to-indigo-50">
+      <div className="max-w-6xl mx-auto px-4">
+        <motion.h2 
+          className="text-4xl font-bold text-center text-zinc-800 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          Why Choose EduLite?
+        </motion.h2>
+        <div className="grid grid-cols-3 gap-8 max-md:grid-cols-1">
           {features.map((feature, index) => (
-            <div key={index} className="w-[33%] max-md:ml-0 max-md:w-full">
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
               <FeatureCard {...feature} />
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-      <h2 className="self-center mt-20 text-4xl font-bold text-center text-zinc-800 max-md:mt-10">
-        What Students Say
-      </h2>
+    </section>
+  );
+}
+
+function Testimonials() {
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: "Computer Science Student",
+      image: "https://randomuser.me/api/portraits/women/1.jpg",
+      text: "EduLite has transformed my learning experience. The platform is intuitive and the resources are excellent."
+    },
+    {
+      name: "Michael Chen",
+      role: "Engineering Student",
+      image: "https://randomuser.me/api/portraits/men/1.jpg",
+      text: "The collaborative features make group projects so much easier. Highly recommended!"
+    },
+    {
+      name: "Emily Rodriguez",
+      role: "Business Student",
+      image: "https://randomuser.me/api/portraits/women/2.jpg",
+      text: "The real-time updates and notifications keep me on track with my studies. Great platform!"
+    }
+  ];
+
+  return (
+    <section className="py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-4">
+        <motion.h2 
+          className="text-4xl font-bold text-center text-zinc-800 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          What Students Say
+        </motion.h2>
+        <div className="grid grid-cols-3 gap-8 max-md:grid-cols-1">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={index}
+              className="p-6 rounded-xl bg-indigo-50"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex items-center mb-4">
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-12 h-12 rounded-full mr-4"
+                />
+                <div>
+                  <h4 className="font-semibold text-zinc-800">{testimonial.name}</h4>
+                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                </div>
+              </div>
+              <p className="text-gray-600">{testimonial.text}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CTA() {
+  const navigate = useNavigate();
+  
+  return (
+    <section className="py-20 bg-indigo-700">
+      <div className="max-w-6xl mx-auto px-4 text-center">
+        <motion.h2 
+          className="text-4xl font-bold text-white mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          Ready to Transform Your Learning Experience?
+        </motion.h2>
+        <motion.p 
+          className="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          Join thousands of students who are already using EduLite to enhance their education.
+        </motion.p>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="px-8 py-4 text-indigo-700 bg-white rounded-lg font-semibold hover:bg-indigo-50 transition-colors duration-200"
+          onClick={() => navigate("/login")}
+        >
+          Get Started Now
+        </motion.button>
+      </div>
     </section>
   );
 }
 
 function Footer() {
   return (
-    <footer className="px-16 py-12 mt-32 w-full bg-zinc-800 max-md:px-5 max-md:mt-10 max-md:max-w-full">
-      <div className="flex gap-5 max-md:flex-col">
-        <div className="w-[76%] max-md:ml-0 max-md:w-full">
-          <div className="grow max-md:mt-10 max-md:max-w-full">
-            <div className="flex gap-5 max-md:flex-col">
-              <div className="w-[39%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col max-md:mt-8">
-                  <h3 className="self-start text-xl font-bold text-white">
-                    EduLite
-                  </h3>
-                  <p className="mt-5 text-base leading-6 text-neutral-400">
-                    Transforming education through technology.
-                  </p>
-                </div>
-              </div>
-              <nav className="ml-5 w-[18%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col items-start text-base text-neutral-400 max-md:mt-8">
-                  <h3 className="self-stretch text-xl font-bold text-white">
-                    Quick Links
-                  </h3>
-                  <a href="#" className="mt-4">
-                    About Us
-                  </a>
-                  <a href="#" className="mt-2">
-                    Features
-                  </a>
-                  <a href="#" className="mt-2">
-                    Testimonials
-                  </a>
-                </div>
-              </nav>
-              <div className="ml-5 w-[43%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col grow text-base text-neutral-400 max-md:mt-8">
-                  <nav className="flex flex-col items-start self-end max-md:mr-2.5">
-                    <h3 className="text-xl font-bold text-white">Support</h3>
-                    <a href="#" className="mt-4">
-                      Help Center
-                    </a>
-                    <a href="#" className="mt-2">
-                      Contact Us
-                    </a>
-                    <a href="#" className="self-stretch mt-2">
-                      Privacy Policy
-                    </a>
-                  </nav>
-                  <p className="mt-12 text-center max-md:mt-10">
-                    © 2024 EduLite. All rights reserved.
-                  </p>
-                </div>
-              </div>
-            </div>
+    <footer className="bg-zinc-800 text-white">
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-4 gap-8 max-md:grid-cols-2 max-sm:grid-cols-1">
+          <div>
+            <h3 className="text-xl font-bold mb-4">EduLite</h3>
+            <p className="text-neutral-400">
+              Transforming education through technology.
+            </p>
           </div>
-        </div>
-        <div className="ml-5 w-[24%] max-md:ml-0 max-md:w-full">
-          <div className="flex flex-col w-full whitespace-nowrap max-md:mt-10">
-            <h3 className="self-start text-xl font-bold text-white">Connect</h3>
-            <nav className="flex gap-3.5 mt-4 text-base text-neutral-400">
-              <a href="#" className="grow">
-                Twitter
-              </a>
-              <a href="#">LinkedIn</a>
-              <a href="#">Facebook</a>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+            <nav className="flex flex-col gap-2 text-neutral-400">
+              <a href="#" className="hover:text-white transition-colors duration-200">About Us</a>
+              <a href="#" className="hover:text-white transition-colors duration-200">Features</a>
+              <a href="#" className="hover:text-white transition-colors duration-200">Testimonials</a>
             </nav>
           </div>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Support</h3>
+            <nav className="flex flex-col gap-2 text-neutral-400">
+              <a href="#" className="hover:text-white transition-colors duration-200">Help Center</a>
+              <a href="#" className="hover:text-white transition-colors duration-200">Contact Us</a>
+              <a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a>
+            </nav>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Connect</h3>
+            <nav className="flex gap-4 text-neutral-400">
+              <a href="#" className="hover:text-white transition-colors duration-200">
+                <FaGraduationCap className="text-2xl" />
+              </a>
+              <a href="#" className="hover:text-white transition-colors duration-200">
+                <FaUsers className="text-2xl" />
+              </a>
+              <a href="#" className="hover:text-white transition-colors duration-200">
+                <FaBook className="text-2xl" />
+              </a>
+            </nav>
+          </div>
+        </div>
+        <div className="mt-8 pt-8 border-t border-zinc-700 text-center text-neutral-400">
+          <p>© 2024 EduLite. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -196,14 +339,15 @@ function Footer() {
 
 function LandingPage() {
   return (
-    <main className="overflow-hidden bg-white">
-      <div className="flex flex-col w-full bg-neutral-50 max-md:max-w-full">
-        <Header />
-        <Hero />
-        <Features />
-        <Footer />
-      </div>
-    </main>
+    <div className="min-h-screen">
+      <Header />
+      <Hero />
+      <Stats />
+      <Features />
+      <Testimonials />
+      <CTA />
+      <Footer />
+    </div>
   );
 }
 
