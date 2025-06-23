@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AdminLayout from '../components/AdminLayout';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from "../axiosInstance";
 
 const AddNotice = () => {
   const [title, setTitle] = useState('');
@@ -16,7 +16,7 @@ const AddNotice = () => {
     setLoading(true);
     try {
       // You can adjust the endpoint as needed
-      await axios.post('http://localhost:5000/api/admin/notifications', {
+      await axiosInstance.post("/admin/notifications", {
         title,
         description
       }, {

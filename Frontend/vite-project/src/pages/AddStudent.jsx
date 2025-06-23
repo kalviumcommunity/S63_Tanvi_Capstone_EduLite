@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from "../axiosInstance";
 import AdminLayout from '../components/AdminLayout';
 
 const AddStudent = () => {
@@ -21,7 +22,7 @@ const AddStudent = () => {
     // Fetch courses for dropdown
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/courses', {
+        const response = await axiosInstance.get("/admin/courses", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         console.log('Courses API response:', response.data); // Debug log
@@ -67,11 +68,8 @@ const AddStudent = () => {
     data.append('course', formData.course);
     if (formData.profilePhoto) data.append('profilePhoto', formData.profilePhoto);
     try {
-      await axios.post('http://localhost:5000/api/admin/users', data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-          'Content-Type': 'multipart/form-data'
-        }
+      await axiosInstance.post("/admin/users", data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       navigate('/admin/students');
     } catch (error) {

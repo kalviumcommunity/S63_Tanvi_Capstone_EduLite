@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../components/AdminLayout';
 import { FaPlus, FaPencilAlt, FaTrash, FaUsers, FaClock, FaTag, FaImage, FaTimes } from 'react-icons/fa';
-import axios from 'axios';
+import axiosInstance from "../axiosInstance";
 
 const CourseCard = ({ course, onEdit, onDelete }) => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden">
     {/* Course Image */}
     <div className="h-48 w-full overflow-hidden relative">
       <img
-        src={course.image ? `http://localhost:5000${course.image}` : 'https://via.placeholder.com/400x200?text=No+Image'}
+        src={course.image ? `https://s63-tanvi-capstone-edulite-3.onrender.com${course.image}` : 'https://via.placeholder.com/400x200?text=No+Image'}
         alt={course.name}
         className="w-full h-full object-cover"
       />
@@ -83,7 +83,7 @@ const AdminCourses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/courses', {
+        const response = await axiosInstance.get("/courses", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setCourses(response.data);
@@ -133,16 +133,13 @@ const AdminCourses = () => {
     data.append('category', editForm.category);
     if (editForm.image) data.append('image', editForm.image);
     try {
-      await axios.put(`http://localhost:5000/api/courses/${editCourse._id}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-          'Content-Type': 'multipart/form-data'
-        }
+      await axiosInstance.put(`/courses/${editCourse._id}`, data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       setEditModalOpen(false);
       setEditCourse(null);
       // Refresh courses
-      const response = await axios.get('http://localhost:5000/api/courses', {
+      const response = await axiosInstance.get("/courses", {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       setCourses(response.data);
@@ -154,7 +151,7 @@ const AdminCourses = () => {
   const handleDelete = async (courseId) => {
     if (window.confirm('Are you sure you want to delete this course?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/courses/${courseId}`, {
+        await axiosInstance.delete(`/courses/${courseId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setCourses(courses.filter(c => c._id !== courseId));
@@ -183,11 +180,8 @@ const AdminCourses = () => {
         formData.append('image', newCourse.image);
       }
 
-      const response = await axios.post('http://localhost:5000/api/courses', formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-          'Content-Type': 'multipart/form-data'
-        }
+      const response = await axiosInstance.post("/courses", formData, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
 
       setCourses([...courses, response.data.course]);

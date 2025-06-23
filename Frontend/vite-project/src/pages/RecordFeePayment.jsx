@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../components/AdminLayout';
-import axios from 'axios';
+import axiosInstance from "../axiosInstance";
 import { useLocation } from 'react-router-dom';
 
 const RecordFeePayment = () => {
@@ -23,7 +23,7 @@ const RecordFeePayment = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/admin/users', {
+        const res = await axiosInstance.get("/admin/users", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setStudents(res.data.filter(u => u.role !== 'admin'));
@@ -34,7 +34,7 @@ const RecordFeePayment = () => {
     };
     const fetchCourses = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/admin/courses', {
+        const res = await axiosInstance.get("/admin/courses", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setCourses(res.data);
@@ -71,7 +71,7 @@ const RecordFeePayment = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/fees', {
+      const response = await axiosInstance.post("/admin/fees", {
         studentId: form.student,
         courseId: form.course,
         totalFee: form.totalFee,

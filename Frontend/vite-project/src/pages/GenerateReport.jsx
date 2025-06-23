@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../components/AdminLayout';
-import axios from 'axios';
+import axiosInstance from "../axiosInstance";
 
 const GenerateReport = () => {
   const [stats, setStats] = useState(null);
@@ -12,12 +12,12 @@ const GenerateReport = () => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const dashboardRes = await axios.get('http://localhost:5000/api/admin/dashboard', {
+        const dashboardRes = await axiosInstance.get("/admin/dashboard", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setStats(dashboardRes.data.stats);
 
-        const usersRes = await axios.get('http://localhost:5000/api/admin/users', {
+        const usersRes = await axiosInstance.get("/admin/users", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         const students = usersRes.data.filter(u => u.role === 'student');

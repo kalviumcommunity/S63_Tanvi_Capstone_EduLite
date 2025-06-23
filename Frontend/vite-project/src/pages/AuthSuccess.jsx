@@ -1,36 +1,20 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AuthSuccess = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const token = searchParams.get('token');
-    const error = searchParams.get('error');
-
-    console.log('AuthSuccess: Token received:', token ? 'Yes' : 'No');
-    console.log('AuthSuccess: Error received:', error || 'None');
-
-    if (error) {
-      console.error('Google auth error:', error);
-      navigate('/login?error=' + encodeURIComponent(error));
-      return;
-    }
-
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
     if (token) {
-      console.log('AuthSuccess: Storing token and redirecting to dashboard');
-      // Store the token
-      localStorage.setItem('token', token);
-      
-      // Redirect to dashboard
-      navigate('/dashboard', { replace: true });
+      localStorage.setItem("token", token);
+      navigate("/dashboard");
     } else {
-      console.log('AuthSuccess: No token received, redirecting to login');
-      // No token received, redirect to login
-      navigate('/login?error=No authentication token received');
+      // Optionally handle error
+      navigate("/login");
     }
-  }, [searchParams, navigate]);
+  }, [navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

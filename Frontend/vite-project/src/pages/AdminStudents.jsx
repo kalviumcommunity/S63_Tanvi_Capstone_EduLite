@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../components/AdminLayout';
 import { FaUserPlus, FaCopy, FaPencilAlt, FaTrash, FaTimes } from 'react-icons/fa';
-import axios from 'axios';
+import axiosInstance from "../axiosInstance";
 import { useNavigate } from 'react-router-dom';
 
 const getProfileImageUrl = (profilePicture) => {
@@ -108,7 +108,7 @@ const AdminStudents = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/users', {
+      const response = await axiosInstance.get("/admin/users", {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       const regularUsers = response.data.filter(user => user.role !== 'admin');
@@ -123,7 +123,7 @@ const AdminStudents = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/courses', {
+      const response = await axiosInstance.get("/admin/courses", {
         headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
       setCourses(response.data);
@@ -179,11 +179,8 @@ const AdminStudents = () => {
       data.append('dob', formData.dob);
       data.append('courses', JSON.stringify(formData.courses));
 
-      const response = await axios.post('http://localhost:5000/api/admin/users', data, {
-        headers: { 
-          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-          'Content-Type': 'multipart/form-data'
-        }
+      const response = await axiosInstance.post("/admin/users", data, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
       });
 
       if (response.data) {
@@ -247,7 +244,7 @@ const AdminStudents = () => {
     if (editForm.profilePhoto) data.append('profilePhoto', editForm.profilePhoto);
     
     try {
-      await axios.put(`http://localhost:5000/api/admin/users/${editStudent._id}`, data, {
+      await axiosInstance.put(`/admin/users/${editStudent._id}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
           'Content-Type': 'multipart/form-data'
@@ -264,7 +261,7 @@ const AdminStudents = () => {
   const handleDelete = async (studentId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/users/${studentId}`, {
+        await axiosInstance.delete(`/admin/users/${studentId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setStudents(students.filter(s => s._id !== studentId));

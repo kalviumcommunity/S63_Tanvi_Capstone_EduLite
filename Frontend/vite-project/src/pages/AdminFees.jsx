@@ -3,6 +3,7 @@ import AdminLayout from '../components/AdminLayout';
 import { FaPlus } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from "../axiosInstance";
 
 const FeeRecord = ({ student }) => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const AdminFees = () => {
   useEffect(() => {
     const fetchFeeRecords = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/fees', {
+        const response = await axiosInstance.get("/admin/fees", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setFeeRecords(response.data);

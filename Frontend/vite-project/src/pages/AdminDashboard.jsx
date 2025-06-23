@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../components/AdminLayout';
 import { FaUserPlus, FaBook, FaDollarSign, FaFileAlt } from 'react-icons/fa';
-import axios from 'axios';
+import axiosInstance from "../axiosInstance";
 import { useNavigate } from 'react-router-dom';
 
 const StatCard = ({ title, value, change }) => (
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/dashboard', {
+        const response = await axiosInstance.get("/admin/dashboard", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setStats(response.data.stats);
@@ -65,7 +65,7 @@ const AdminDashboard = () => {
 
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/admin/notifications', {
+        const res = await axiosInstance.get("/admin/notifications", {
           headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` }
         });
         setNotifications(res.data);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import axiosInstance from "../axiosInstance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,7 +33,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/login", {
+      const response = await axiosInstance.post("/users/login", {
         email,
         password,
       });
@@ -56,7 +57,7 @@ const Login = () => {
     setError("");
     
     // Redirect to Google OAuth
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = "https://s63-tanvi-capstone-edulite-3.onrender.com/api/auth/google";
   };
 
   const handleGoogleLoginError = (error) => {

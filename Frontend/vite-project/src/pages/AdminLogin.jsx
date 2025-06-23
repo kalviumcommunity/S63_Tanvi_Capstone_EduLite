@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
@@ -17,13 +17,13 @@ const AdminLogin = () => {
     try {
       // First, check if backend is reachable
       try {
-        await axios.get('http://localhost:5000/');
+        await axiosInstance.get("/");
       } catch (err) {
         throw new Error('Backend server is not running. Please start the server and try again.');
       }
 
       console.log("Attempting admin login with:", { email });
-      const response = await axios.post("http://localhost:5000/api/admin/login", {
+      const response = await axiosInstance.post("/admin/login", {
         email,
         password,
       }, {
@@ -53,7 +53,7 @@ const AdminLogin = () => {
       if (err.message.includes('Backend server is not running')) {
         setError(err.message);
       } else if (err.message === 'Network Error') {
-        setError("Cannot connect to the server. Please make sure the backend server is running on http://localhost:5000");
+        setError("Cannot connect to the server. Please make sure the backend server is running.");
       } else if (err.code === 'ECONNABORTED') {
         setError("Connection timed out. Please try again.");
       } else {
