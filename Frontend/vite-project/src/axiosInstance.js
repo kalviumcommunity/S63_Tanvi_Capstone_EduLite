@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://s63-tanvi-capstone-edulite-3.onrender.com/api",
 });
 
 axiosInstance.interceptors.request.use(
