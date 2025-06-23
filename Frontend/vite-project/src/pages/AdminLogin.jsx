@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
 
@@ -15,12 +16,8 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      // First, check if backend is reachable
-      try {
-        await axiosInstance.get("/");
-      } catch (err) {
-        throw new Error('Backend server is not running. Please start the server and try again.');
-      }
+      // Use the deployed backend root for health check
+      await axios.get("https://s63-tanvi-capstone-edulite-3.onrender.com/");
 
       console.log("Attempting admin login with:", { email });
       const response = await axiosInstance.post("/admin/login", {
