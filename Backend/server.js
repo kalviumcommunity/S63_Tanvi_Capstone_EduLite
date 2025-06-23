@@ -15,8 +15,22 @@ const googleRoutes = require("./googleRoutes");
 const cors = require('cors');
 
 const app = express();
+
+const allowedOrigins = [
+  'https://edulitebytanvi.netlify.app',
+  'http://localhost:5173'
+];
+
 app.use(cors({
-  origin: '*', // Allow all origins during development
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
