@@ -1,104 +1,247 @@
-EduLite
-Simple Institute Management System
-________________________________________
-Project Description
-EduLite is a lightweight and easy-to-use web-based Institute Management System built using the MERN stack. It is designed to help educational institutions manage essential operations such as student records, course information, and fee payments efficiently. The system consists of two main dashboards: one for administrators and one for students. Admins can add courses, manage student data, and track fee payments, while students can view their course enrollments and fee statuses.
-________________________________________
-Problem Statement
-Many small and mid-sized educational institutions still rely on manual processes to manage students, courses, and fees. This can lead to disorganized data, human errors, delayed fee tracking, and an overall inefficient administrative workflow. There is a need for a simple and intuitive digital solution to automate these routine tasks.
-________________________________________
-Solution
-EduLite provides a streamlined web platform where admin users can manage all institutional data in one place. It simplifies course management, student registrations, and fee tracking, helping educational institutes reduce administrative workload. Meanwhile, students have access to their course information and payment history through a dedicated dashboard.
-________________________________________
-Key Features
-Admin Dashboard:
-●	Add, view, and delete courses
+# EduLite
 
-●	Add, view, and delete students
+> A lightweight, intuitive web-based Institute Management System built with the MERN stack.
 
-●	Assign students to courses
+[![Frontend](https://img.shields.io/website?label=Frontend&url=https%3A%2F%2Fedulitebytanvi.netlify.app)](https://edulitebytanvi.netlify.app/)
+[![Backend](https://img.shields.io/website?label=Backend&url=https%3A%2F%2Fs63-tanvi-capstone-edulite-3.onrender.com)](https://s63-tanvi-capstone-edulite-3.onrender.com)
 
-●	Record and update student fee payments
+---
 
-●	View fee status for each student
+## 📋 Table of Contents
 
-Student Dashboard:
-●	View enrolled courses
+- [Overview](#overview)
+- [Problem Statement](#problem-statement)
+- [Solution](#solution)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Deployment](#deployment)
+- [Target Audience](#target-audience)
 
-●	View fee payment history and status (Paid/Unpaid/Partial)
+---
 
-●	View and edit personal profile information (basic)
+## 🎯 Overview
 
-________________________________________
-Technology Stack
-●	Frontend: React.js
+EduLite is a comprehensive Institute Management System designed to streamline administrative operations for educational institutions. With separate dashboards for administrators and students, EduLite enables efficient management of courses, student records, and financial transactions in a simple, intuitive interface.
 
-●	Backend: Node.js + Express.js
+---
 
-●	Database: MongoDB
+## 🔍 Problem Statement
 
-●	Authentication: JWT (role-based access for admin and student)
+Many small and mid-sized educational institutions still rely on manual, paper-based processes to manage:
+- Student records and registrations
+- Course information and enrollments
+- Fee payments and financial tracking
 
-●	Styling: Tailwind CSS or Material UI
+This traditional approach leads to:
+- **Disorganized data** and duplicate records
+- **Human errors** and inconsistencies
+- **Delayed fee tracking** and reporting
+- **Inefficient workflows** and wasted administrative time
 
-●	Optional Integrations: Cloudinary (for student profile photos), Chart.js (for admin analytics)
+---
 
-________________________________________
-Targeted Audience
-●	Small to mid-sized educational institutes
+## 💡 Solution
 
-●	Coaching centers and private tutors
+EduLite provides a centralized, digital platform that:
+- **Automates** routine administrative tasks
+- **Centralizes** all institutional data in one place
+- **Improves** transparency and communication
+- **Reduces** paperwork and manual entry errors
+- **Empowers** both administrators and students with real-time access to information
 
-●	Online course platforms looking for lightweight management tools
+---
 
-________________________________________
-Outcome
-By implementing EduLite, institutes will benefit from a clean and simple solution to digitize administrative processes. It will save time, reduce paperwork, and minimize human error. Students will enjoy transparency and quick access to their academic and financial information, leading to an overall more efficient and satisfying experience for all users.
+## ✨ Features
 
+### 👨‍💼 Admin Dashboard
+- ✅ **Course Management** – Add, view, and delete courses
+- ✅ **Student Management** – Add, view, and delete student records
+- ✅ **Enrollment** – Assign students to courses
+- ✅ **Fee Management** – Record and track student fee payments
+- ✅ **Financial Reporting** – View detailed fee status and generate reports
+- ✅ **Analytics** – Dashboard analytics and insights (Chart.js)
 
+### 👨‍🎓 Student Dashboard
+- ✅ **Enrolled Courses** – View all assigned courses
+- ✅ **Fee Tracking** – View payment history and status (Paid/Unpaid/Partial)
+- ✅ **Profile Management** – View and edit personal information
+- ✅ **Notifications** – Stay updated with important announcements
+- ✅ **Payment Transparency** – Clear visibility of financial obligations
 
+---
 
-30-Day Project Plan (Day-wise Breakdown)
-Week 1 – Planning & Setup
-●	Day 1: Finalize requirements and feature list
-●	Day 2: Design wireframes for both dashboards
-●	Day 3: Set up project structure (frontend + backend)
-●	Day 4: Connect MongoDB with Express backend
-●	Day 5: Create basic React frontend layout
-●	Day 6: Set up routing and navigation (React Router)
-●	Day 7: Implement authentication (JWT)
-Week 2 – Admin Module Development
-●	Day 8: Create admin login and dashboard UI
-●	Day 9: Implement course CRUD operations
-●	Day 10: Create student CRUD UI
-●	Day 11: Backend: student and course APIs
-●	Day 12: Connect frontend to backend for admin actions
-●	Day 13: Implement assigning students to courses
-●	Day 14: Add fee management section for students
-Week 3 – Student Module Development
-●	Day 15: Create student login and dashboard
-●	Day 16: Build UI to show enrolled courses
-●	Day 17: Build UI for fee status view
-●	Day 18: Backend: API to fetch student-specific data
-●	Day 19: Profile view/edit feature for students
-●	Day 20: Validate and test all student routes
-●	Day 21: Implement role-based access (admin vs student)
-Week 4 – Polish, Test, and Deploy
-●	Day 22: UI improvements & responsiveness
-●	Day 23: Add optional integrations (e.g., Cloudinary)
-●	Day 24: Add simple dashboard analytics (Chart.js)
-●	Day 25: Testing: Functional/unit tests (Jest/Postman)
-●	Day 26: Create PDF report generation for fee receipts
-●	Day 27: Final bug fixes and performance tweaks
-●	Day 28: Prepare documentation and README
-●	Day 29: Deploy backend (Render/Vercel/Heroku)
-●	Day 30: Deploy frontend and final testing + presentation
+## 🛠️ Technology Stack
 
+### Frontend
+- **React.js** – Modern UI library
+- **Vite** – Fast build tool and dev server
+- **Tailwind CSS** – Utility-first styling framework
+- **React Router** – Client-side routing
+- **Axios** – HTTP client for API communication
 
+### Backend
+- **Node.js** – JavaScript runtime
+- **Express.js** – Web framework
+- **MongoDB** – NoSQL database
+- **JWT** – JSON Web Tokens for authentication
+- **Cloudinary** – Cloud-based image storage (profile photos)
 
-Backend deployment link : https://s63-tanvi-capstone-edulite-3.onrender.com
+### Deployment
+- **Frontend** – Netlify
+- **Backend** – Render
+- **Database** – MongoDB Atlas
 
-Frontend deployment link : https://edulitebytanvi.netlify.app/
+---
+
+## 📁 Project Structure
+
+```
+EduLite/
+├── Backend/
+│   ├── models/               # MongoDB schemas
+│   │   ├── admin.js
+│   │   ├── student.js
+│   │   ├── course.js
+│   │   ├── user.js
+│   │   └── notification.js
+│   ├── adminRoutes.js        # Admin endpoints
+│   ├── studentRoutes.js      # Student endpoints
+│   ├── courseRoutes.js       # Course endpoints
+│   ├── authMiddleware.js     # Authentication/Authorization
+│   ├── server.js             # Express server
+│   └── package.json
+│
+├── Frontend/
+│   └── vite-project/
+│       ├── src/
+│       │   ├── components/
+│       │   │   ├── AdminLayout.jsx
+│       │   │   ├── StudentLayout.jsx
+│       │   │   └── Navbar.jsx
+│       │   ├── pages/
+│       │   │   ├── AdminDashboard.jsx
+│       │   │   ├── AdminCourses.jsx
+│       │   │   ├── AdminStudents.jsx
+│       │   │   ├── StudentDashboard.jsx
+│       │   │   ├── StudentCourses.jsx
+│       │   │   ├── StudentProfile.jsx
+│       │   │   └── ...
+│       │   ├── App.jsx
+│       │   ├── main.jsx
+│       │   └── axiosInstance.js
+│       ├── public/
+│       ├── package.json
+│       └── vite.config.js
+│
+└── readme.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v14+)
+- MongoDB (local or Atlas)
+- npm or yarn
+
+### Backend Setup
+
+```bash
+# Navigate to backend directory
+cd Backend
+
+# Install dependencies
+npm install
+
+# Create .env file with:
+# MONGODB_URI=your_mongodb_connection_string
+# JWT_SECRET=your_secret_key
+# CLOUDINARY_API_KEY=your_cloudinary_key
+# (and other required environment variables)
+
+# Start the server
+npm start
+```
+
+### Frontend Setup
+
+```bash
+# Navigate to frontend directory
+cd Frontend/vite-project
+
+# Install dependencies
+npm install
+
+# Create .env file with:
+# VITE_API_BASE_URL=http://localhost:5000
+
+# Start development server
+npm run dev
+```
+
+---
+
+## 🌐 Deployment
+
+### Live Links
+- **Frontend:** [https://edulitebytanvi.netlify.app](https://edulitebytanvi.netlify.app)
+- **Backend API:** [https://s63-tanvi-capstone-edulite-3.onrender.com](https://s63-tanvi-capstone-edulite-3.onrender.com)
+
+### Deploy Instructions
+
+**Frontend (Netlify):**
+```bash
+npm run build
+# Deploy the dist/ folder to Netlify
+```
+
+**Backend (Render):**
+- Connect your GitHub repository
+- Set environment variables in Render dashboard
+- Trigger automatic deployment on push
+
+---
+
+## 👥 Target Audience
+
+- 🏫 Small to mid-sized educational institutes
+- 🎓 Coaching centers and private tutors
+- 💻 Online learning platforms seeking lightweight management tools
+- 📚 Training centers and educational nonprofits
+
+---
+
+## 📊 Development Timeline
+
+This project was completed following a structured 30-day development plan:
+
+| Week | Focus | Days |
+|------|-------|------|
+| 1 | Planning, Setup & Architecture | 1-7 |
+| 2 | Admin Module Development | 8-14 |
+| 3 | Student Module Development | 15-21 |
+| 4 | Testing, Polish & Deployment | 22-30 |
+
+---
+
+## 📝 License
+
+This project is created as part of a capstone assignment.
+
+---
+
+## 👩‍💻 Author
+
+**Tanvi Agarwal** – Capstone Project (S63)
+
+---
+
+## 🤝 Support
+
+For issues, questions, or suggestions, please feel free to reach out.
 
 
 
