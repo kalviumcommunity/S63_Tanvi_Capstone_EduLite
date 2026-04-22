@@ -16,34 +16,34 @@ const cors = require('cors');
 
 const app = express();
 
+/* =========================
+   ✅ FIXED CORS CONFIG
+   ========================= */
+
 const allowedOrigins = [
   'https://edulitebytanvi.netlify.app',
   'http://localhost:5173'
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: allowedOrigins,   // ✅ removed custom function
   credentials: true
 }));
 
-// Session configuration for Passport
+app.options('*', cors());   // ✅ handle preflight requests
+
+/* =========================
+   SESSION CONFIG (unchanged)
+   ========================= */
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-session-secret',
   resave: false,
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // ✅ important for cross-origin cookies
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
 
@@ -51,15 +51,18 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware
-// app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Configure CORS
-app.use(express.json()); // To parse JSON in request body
+/* =========================
+   MIDDLEWARE (unchanged order improved)
+   ========================= */
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-const PORT = process.env.PORT || 5000;
-app.use(express.urlencoded({ extended: true }));
+/* =========================
+   ROUTES (unchanged)
+   ========================= */
 
-// Routes
 app.use('/api', userRoutes);
 app.use('/api', courseRoutes);
 app.use('/api', studentRoutes);
@@ -70,7 +73,10 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-// MongoDB connection using environment variables
+/* =========================
+   DB CONNECTION (unchanged)
+   ========================= */
+
 mongoose.connect(process.env.MONGO_URI || "mongodb+srv://tanviagarwals63:1234tanvi@edulite.9zovzao.mongodb.net/", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -78,16 +84,24 @@ mongoose.connect(process.env.MONGO_URI || "mongodb+srv://tanviagarwals63:1234tan
     console.log('Connected to MongoDB');
 }).catch(err => {
     console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit if database connection fails
+    process.exit(1);
 });
 
-// Error handling middleware
+/* =========================
+   ERROR HANDLER (unchanged)
+   ========================= */
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ error: 'Something went wrong!' });
+    res.status(500).json({ error: err.message || 'Something went wrong!' }); // ✅ slightly improved
 });
 
-// Start server
+/* =========================
+   SERVER START (unchanged)
+   ========================= */
+
+const PORT = process.env.PORT || 5000;
+
 const server = app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 }).on('error', (err) => {
