@@ -16,19 +16,25 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      // Use the deployed backend root for health check
-      await axios.get("https://s63-tanvi-capstone-edulite-3.onrender.com/");
+      // ✅ Warm-up call (important for Render cold start)
+      await axios.get("https://s63-tanvi-capstone-edulite-3.onrender.com/", {
+        timeout: 15000,
+      });
 
       console.log("Attempting admin login with:", { email });
-      const response = await axiosInstance.post("/admin/login", {
-        email,
-        password,
-      }, {
-        timeout: 5000, // 5 second timeout
-        headers: {
-          'Content-Type': 'application/json',
+
+      const response = await axiosInstance.post(
+        "/admin/login",
+        {
+          email,
+          password,
+        },
+        {
+          timeout: 20000, // ✅ increased timeout
+          withCredentials: true, // ✅ REQUIRED (matches backend)
         }
-      });
+      );
+
       console.log("Login response:", response.data);
 
       if (response.data.token) {
@@ -44,17 +50,16 @@ const AdminLogin = () => {
         message: err.message,
         response: err.response?.data,
         status: err.response?.status,
-        config: err.config
+        config: err.config,
       });
-      
-      if (err.message.includes('Backend server is not running')) {
-        setError(err.message);
-      } else if (err.message === 'Network Error') {
-        setError("Cannot connect to the server. Please make sure the backend server is running.");
-      } else if (err.code === 'ECONNABORTED') {
-        setError("Connection timed out. Please try again.");
+
+      // ✅ Cleaner, more accurate error handling
+      if (err.code === "ECONNABORTED") {
+        setError("Server is waking up (cold start). Please try again.");
+      } else if (err.message === "Network Error") {
+        setError("Cannot reach server. Check backend or CORS.");
       } else {
-        setError(err.response?.data?.error || "Failed to login. Please try again.");
+        setError(err.response?.data?.error || "Login failed. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -104,6 +109,7 @@ const AdminLogin = () => {
               disabled={isLoading}
             />
           </div>
+
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-zinc-800">
               Password
@@ -119,6 +125,7 @@ const AdminLogin = () => {
               disabled={isLoading}
             />
           </div>
+
           <button
             type="submit"
             className={`w-full px-4 py-3 text-lg font-medium text-white bg-indigo-700 rounded-lg ${
@@ -134,4 +141,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin; 
+export default AdminLogin;
