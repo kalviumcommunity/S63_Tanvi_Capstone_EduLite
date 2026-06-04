@@ -18,16 +18,21 @@ import RecordFeePayment from "./pages/RecordFeePayment";
 import AddNotice from "./pages/AddNotice";
 import GenerateReport from "./pages/GenerateReport";
 import AuthSuccess from "./pages/AuthSuccess";
-
+import AdminReminders from "./pages/AdminReminders";
+import AdminAuditLogs from "./pages/AdminAuditLogs";
+import OfflineBanner from "./components/OfflineBanner";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 const App = () => {
   return (
     <Router>
+      <OfflineBanner />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/auth-success" element={<AuthSuccess />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
         {/* Student Routes with StudentLayout */}
         <Route element={<StudentLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
@@ -44,6 +49,8 @@ const App = () => {
         <Route path="/admin/record-fee-payment" element={<RecordFeePayment />} />
         <Route path="/admin/add-notice" element={<AddNotice />} />
         <Route path="/admin/generate-report" element={<GenerateReport />} />
+        <Route path="/admin/reminders" element={<AdminReminders />} />
+        <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
       </Routes>
     </Router>
   );

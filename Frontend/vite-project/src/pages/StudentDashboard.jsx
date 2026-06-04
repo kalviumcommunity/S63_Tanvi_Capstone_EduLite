@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
+import GamificationWidget from "../components/GamificationWidget";
+import StudentReminders from "../components/StudentReminders";
 // import Navbar from "../components/Navbar";
 
 const StudentDashboard = () => {
@@ -126,6 +128,7 @@ const StudentDashboard = () => {
               </span>
             </div>
             
+            {/* Notice Modal */}
             {notifications.length === 0 ? (
               <div className="text-center py-6">
                 <svg className="w-8 h-8 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +137,7 @@ const StudentDashboard = () => {
                 <p className="text-gray-500 text-sm">No notices at the moment</p>
               </div>
             ) : (
-              <div className="space-y-3 max-h-96 overflow-y-auto">
+              <div className="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
                 {notifications.map((notice) => (
                   <div 
                     key={notice._id} 
@@ -160,6 +163,13 @@ const StudentDashboard = () => {
               </div>
             )}
           </div>
+
+          <StudentReminders student={student} />
+          
+          <div className="mt-6">
+            <GamificationWidget student={student} />
+          </div>
+
         </div>
       </div>
 

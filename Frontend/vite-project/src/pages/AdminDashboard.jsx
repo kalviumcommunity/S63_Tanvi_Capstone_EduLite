@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../components/AdminLayout';
-import { FaUserPlus, FaBook, FaDollarSign, FaFileAlt } from 'react-icons/fa';
+import { FaUserPlus, FaBook, FaDollarSign, FaFileAlt, FaBell, FaShieldAlt } from 'react-icons/fa';
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from 'react-router-dom';
+import SmartSearch from '../components/SmartSearch';
+import RealtimeFeed from '../components/RealtimeFeed';
 
 const StatCard = ({ title, value, change }) => (
   <div className="bg-white p-6 rounded-lg shadow-md">
@@ -92,6 +94,12 @@ const AdminDashboard = () => {
       case 'generateReport':
         navigate('/admin/generate-report');
         break;
+      case 'manageReminders':
+        navigate('/admin/reminders');
+        break;
+      case 'auditLogs':
+        navigate('/admin/audit-logs');
+        break;
       default:
         break;
     }
@@ -120,7 +128,12 @@ const AdminDashboard = () => {
   return (
     <AdminLayout>
       <div className="space-y-8">
-        <h1 className="text-3xl font-bold text-gray-800">WELCOME, ADMIN</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-gray-800">WELCOME, ADMIN</h1>
+        </div>
+
+        {/* Smart Search Bar */}
+        <SmartSearch />
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -156,12 +169,13 @@ const AdminDashboard = () => {
           />
         </div>
 
-        {/* Quick Actions and Notifications */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Quick Actions */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
+        {/* Grid for Quick Actions, Notifications, and Activity Feed */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* Quick Actions (Takes 1 column) */}
+          <div className="bg-white p-6 rounded-lg shadow-md lg:col-span-1">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <QuickAction
                 icon={FaUserPlus}
                 title="Add Student"
@@ -182,7 +196,22 @@ const AdminDashboard = () => {
                 title="Generate Report"
                 onClick={() => handleQuickAction('generateReport')}
               />
+              <QuickAction
+                icon={FaBell}
+                title="Manage Reminders"
+                onClick={() => handleQuickAction('manageReminders')}
+              />
+              <QuickAction
+                icon={FaShieldAlt}
+                title="Audit Logs"
+                onClick={() => handleQuickAction('auditLogs')}
+              />
             </div>
+          </div>
+
+          {/* Realtime Activity Feed (Takes 1 column) */}
+          <div className="lg:col-span-1">
+            <RealtimeFeed />
           </div>
 
           {/* Notifications */}

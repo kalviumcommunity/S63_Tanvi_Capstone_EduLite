@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require('path');
 const Course = require('./models/course');
 const Notification = require("./models/notification");
+const ActivityLog = require("./models/ActivityLog");
 
 // Environment Variables
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
@@ -130,6 +131,21 @@ router.post('/admin/users', upload.single('profilePhoto'), async (req, res) => {
       profilePicture: profilePhotoPath,
     });
     await newUser.save();
+
+    // Log Activity
+    const io = req.app.get('io');
+    const log = new ActivityLog({
+      action: 'STUDENT_ADDED',
+      message: `Admin added a new student: ${newUser.name}`,
+      userId: newUser._id,
+      role: 'admin'
+    });
+    await log.save();
+    
+    if (io) {
+      io.emit('newActivity', log);
+    }
+
     res.status(201).json({
       message: 'Student added successfully',
       user: {

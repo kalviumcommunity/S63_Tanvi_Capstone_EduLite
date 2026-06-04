@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
     feePaid: { type: Number, default: 0 },  // Amount of fee paid
     feeTotal: { type: Number, default: 0 },  // Total fee amount
     nextFeeDue: { type: Date, default: null },  // Date of next fee due
+    points: { type: Number, default: 0 },       // Gamification points
   },
   { timestamps: true }
 );

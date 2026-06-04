@@ -54,7 +54,12 @@ const Navbar = () => {
       {/* Logout */}
       <div
         className="flex items-center px-6 py-3 cursor-pointer hover:bg-indigo-800 border-t border-indigo-600"
-        onClick={() => navigate("/logout")}
+        onClick={() => {
+          if (window.confirm('Are you sure you want to logout?')) {
+            localStorage.removeItem('token');
+            navigate('/');
+          }
+        }}
       >
         <FaSignOutAlt className="mr-4" />
         <span>Logout</span>

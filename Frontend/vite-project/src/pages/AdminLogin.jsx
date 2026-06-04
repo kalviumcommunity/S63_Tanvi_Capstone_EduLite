@@ -16,10 +16,14 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      // ✅ Warm-up call (important for Render cold start)
-      await axios.get("https://s63-tanvi-capstone-edulite-3.onrender.com/", {
+      // ✅ Warm-up call (important for Render cold start / local connectivity)
+      const baseUrl = import.meta.env.VITE_API_BASE_URL 
+        ? import.meta.env.VITE_API_BASE_URL.replace("/api", "") 
+        : "https://s63-tanvi-capstone-edulite-3.onrender.com/";
+      await axios.get(`${baseUrl}/`, {
         timeout: 15000,
       });
+
 
       console.log("Attempting admin login with:", { email });
 

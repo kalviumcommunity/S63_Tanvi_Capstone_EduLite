@@ -19,6 +19,8 @@ const app = express();
 /* =========================
    ✅ FIXED CORS CONFIG
    ========================= */
+// Initialize cron scheduler
+require('./cron/scheduler');
 
 const allowedOrigins = [
   'https://edulitebytanvi.netlify.app',
@@ -63,11 +65,28 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
    ROUTES (unchanged)
    ========================= */
 
+// Require new routes
+const activityRoutes = require('./activityRoutes');
+const auditRoutes = require('./auditRoutes');
+const reminderRoutes = require('./reminderRoutes');
+const searchRoutes = require('./searchRoutes');
+const gamificationRoutes = require('./gamificationRoutes');
+const paymentRoutes = require('./paymentRoutes');
+
+// Routes
+// Put specific routes before generic ones that might have catch-all params like /:id
+app.use('/api', activityRoutes);
+app.use('/api', auditRoutes);
+app.use('/api', reminderRoutes);
+app.use('/api', searchRoutes);
+app.use('/api', gamificationRoutes);
+app.use('/api', paymentRoutes);
+
 app.use('/api', userRoutes);
 app.use('/api', courseRoutes);
-app.use('/api', studentRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', googleRoutes);
+app.use('/api', studentRoutes); // Keep this at the bottom as it contains /:id
 
 app.get('/', (req, res) => {
     res.send('API is running...');
@@ -102,7 +121,30 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
+const http = require('http');
+const { Server } = require('socket.io');
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true
+  }
+});
+
+// Set io globally so routes can emit events
+app.set('io', io);
+
+io.on('connection', (socket) => {
+  console.log('Client connected:', socket.id);
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
+
+// Start server
+server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 }).on('error', (err) => {
     if (err.code === 'EADDRINUSE') {

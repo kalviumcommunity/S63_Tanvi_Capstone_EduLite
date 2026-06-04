@@ -8,7 +8,7 @@ const CourseCard = ({ course, onEdit, onDelete }) => (
     {/* Course Image */}
     <div className="h-48 w-full overflow-hidden relative">
       <img
-        src={course.image ? `https://s63-tanvi-capstone-edulite-3.onrender.com${course.image}` : 'https://via.placeholder.com/400x200?text=No+Image'}
+        src={course.image ? `${import.meta.env.VITE_API_BASE_URL}${course.image}` : 'https://via.placeholder.com/400x200?text=No+Image'}
         alt={course.name}
         className="w-full h-full object-cover"
       />

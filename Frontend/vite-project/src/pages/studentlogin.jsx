@@ -57,7 +57,7 @@ const Login = () => {
     setError("");
     
     // Redirect to Google OAuth
-    window.location.href = "https://s63-tanvi-capstone-edulite-3.onrender.com/api/auth/google";
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/auth/google`;
   };
 
   const handleGoogleLoginError = (error) => {
