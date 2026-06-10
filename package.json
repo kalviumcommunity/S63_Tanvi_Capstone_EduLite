@@ -1,0 +1,13 @@
+{
+  "name": "edulite-root",
+  "version": "1.0.0",
+  "description": "Root package config for EduLite deployment on Render",
+  "main": "server.js",
+  "scripts": {
+    "postinstall": "cd Backend && npm install",
+    "build": "cd Backend && npm install",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

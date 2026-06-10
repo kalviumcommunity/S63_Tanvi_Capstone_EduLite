@@ -32,7 +32,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options('*', cors());   // ✅ handle preflight requests
+app.options('*splat', cors());   // ✅ handle preflight requests
 
 /* =========================
    SESSION CONFIG (unchanged)
