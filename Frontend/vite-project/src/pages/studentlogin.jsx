@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
+import { API_BASE_URL } from "../config";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -57,7 +58,7 @@ const Login = () => {
     setError("");
     
     // Redirect to Google OAuth
-    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/auth/google`;
+    window.location.href = `${API_BASE_URL}/api/auth/google`;
   };
 
   const handleGoogleLoginError = (error) => {

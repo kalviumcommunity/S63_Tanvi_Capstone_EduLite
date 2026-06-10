@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import AdminLayout from '../components/AdminLayout';
 import { FaPlus, FaPencilAlt, FaTrash, FaUsers, FaClock, FaTag, FaImage, FaTimes } from 'react-icons/fa';
 import axiosInstance from "../axiosInstance";
+import { API_BASE_URL } from "../config";
 
 const CourseCard = ({ course, onEdit, onDelete }) => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden">
     {/* Course Image */}
     <div className="h-48 w-full overflow-hidden relative">
       <img
-        src={course.image ? `${import.meta.env.VITE_API_BASE_URL}${course.image}` : 'https://via.placeholder.com/400x200?text=No+Image'}
+        src={course.image ? `${API_BASE_URL}${course.image}` : 'https://via.placeholder.com/400x200?text=No+Image'}
         alt={course.name}
         className="w-full h-full object-cover"
       />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -17,9 +18,7 @@ const AdminLogin = () => {
 
     try {
       // ✅ Warm-up call (important for Render cold start / local connectivity)
-      const baseUrl = import.meta.env.VITE_API_BASE_URL 
-        ? import.meta.env.VITE_API_BASE_URL.replace("/api", "") 
-        : "https://s63-tanvi-capstone-edulite-3.onrender.com/";
+      const baseUrl = API_BASE_URL.replace("/api", "");
       await axios.get(`${baseUrl}/`, {
         timeout: 15000,
       });

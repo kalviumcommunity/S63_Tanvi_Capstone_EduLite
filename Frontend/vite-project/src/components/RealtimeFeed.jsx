@@ -3,8 +3,9 @@ import { io } from 'socket.io-client';
 import axiosInstance from '../axiosInstance';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBolt, FaExclamationCircle, FaUserPlus, FaMoneyBillWave } from 'react-icons/fa';
+import { API_BASE_URL } from '../config';
 
-const SOCKET_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:5000';
+const SOCKET_URL = API_BASE_URL.replace('/api', '');
 
 const RealtimeFeed = () => {
   const [logs, setLogs] = useState([]);
